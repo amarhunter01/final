@@ -4,6 +4,9 @@
 
 #define MAX_CHAR 100
 
+//global var
+int *y = NULL, *z = NULL;
+
 int brute_force_search(int *, int, int);
 
 int binary_search(int *, int, int);
@@ -23,6 +26,12 @@ void sort_names(char (*)[MAX_CHAR], int);
 int check(char *, char *);
 
 void copy(char *, char *);
+
+void find_art(int *, float *, int);
+
+int * make_arrays(int *, int);
+
+int is_decreasing(int);
 
 int main(){
     
@@ -121,8 +130,178 @@ int main(){
     // }
     // printf("+++++++++++++++++++\n");
 
+    // //arithmetic to other array with elements from first
+    // int *arr1, n;
+    // float *arr2;
+    // printf("Enter n: ");
+    // scanf("%d", &n);
+
+    // arr1 = (int *) malloc(n*sizeof(int));
+    // if(arr1==NULL){
+    //     printf("error");
+    //     exit(1);
+    // }
+
+    // printf("Enter array: ");
+    // for(int i = 0; i<n; i++){
+    //     scanf("%d", &arr1[i]);
+    // }
+
+    // arr2 = (float *) malloc((n*2 - 1)*sizeof(float));
+    // if(arr2==NULL){
+    //     printf("error");
+    //     exit(1);
+    // }
+
+    // find_art(arr1, arr2, n);
+
+    // free(arr1);
+    // free(arr2);
+
+    //make 2 arrays from 3digit number one has numbers whos digits are increasing and other has decresing digits
+    int *x, n, *ns;
+    printf("Enter n: ");
+    scanf("%d", &n);
+
+    printf("Enter array: \n");
+
+    x = (int *) malloc(n*sizeof(int));
+    if(x==NULL){
+        printf("error start");
+        exit(1);
+    }
+
+    for(int i = 0; i<n; i++){
+        scanf("%d", &x[i]);
+    }
+        
+    ns = make_arrays(x, n);
+
+    // printf("%d", ns[0]);
+    // printf(" %d\n", ns[1]);
+
+
+    show_array(y, ns[0]);
+    show_array(z, ns[1]);
+
+
+    free(x);
+    free(y);
+    free(z);
+    free(ns);
 
     return 0;
+}
+
+int is_decreasing(int n){
+    int x = n;
+    int prev = x%10;
+    int ind = 1;
+    x /= 10;
+    while(x>0 && ind == 1){
+        ind = 0;
+        if(prev < x%10){
+            ind = 1;
+            prev = x%10;
+            x/=10;
+            
+        } 
+    }
+    if(ind == 1){
+        return 1;
+    }
+
+    x = n;
+    prev = x%10;
+    ind = 1;
+    x /= 10;
+    while(x>0 && ind == 1){
+        ind = 0;
+        if(prev > x%10){
+            ind = 1;
+            prev = x%10;
+            x/=10;
+            
+        } 
+    }
+    if(ind == 1){
+        return 0;
+    }
+
+    return -1;
+
+}
+
+int * make_arrays(int *x, int n){
+    int j = 1, k = 1, check, *sizes;
+
+    y = (int *) malloc(j*sizeof(int));
+    if(y == NULL){
+        printf("error srtart 1");
+        exit(1);
+    }
+
+    z = (int *) malloc(k*sizeof(int));
+    if(z == NULL){
+        printf("error start 2");
+        exit(1);
+    }
+
+
+
+    for(int i = 0; i<n; i++){
+        check = is_decreasing(x[i]);
+        if(check == 1){
+            y = realloc(y, j*sizeof(int));
+            if(y == NULL){
+                printf("error 1");
+                exit(1);
+            }
+            y[j-1] = x[i];
+            j++;
+        } else if(check == 0){
+            z = realloc(z, k*sizeof(int));
+            if(z == NULL){
+                printf("error 2");
+                exit(1);
+            }
+            z[k-1] = x[i];
+            k++;
+        }
+    }
+
+    sizes = (int *) malloc(2*sizeof(int));
+    if(sizes == NULL){
+        printf("error 3");
+        exit(1);
+    }
+
+    sizes[0] = j-1;
+    sizes[1] = k-1;
+
+    return sizes;
+
+}
+
+void find_art(int *arr1, float *arr2, int n){
+    for(int i = 0; i<n; i++){
+        if(i==0 || i+1 == n){
+            arr2[i*2] = arr1[i];
+        } else{
+            arr2[i*2-1] = (float) (arr1[i] + arr1[i-1])/2;
+            arr2[i*2] = arr1[i];
+            arr2[i*2+1] = (float) (arr1[i] + arr1[i+1])/2;
+        }
+
+    }    
+
+    printf("+++++++++++++++++++++\n");
+    for(int i = 0; i<2*n-1; i++){
+        printf("%.2f ", arr2[i]);
+    }
+    printf("\n+++++++++++++++++++++\n");
+
+
 }
 
 void copy(char *s1, char *s2){
