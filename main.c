@@ -158,37 +158,32 @@ int main(){
     // free(arr1);
     // free(arr2);
 
-    //make 2 arrays from 3digit number one has numbers whos digits are increasing and other has decresing digits
-    int *x, n, *ns;
-    printf("Enter n: ");
-    scanf("%d", &n);
+    // //make 2 arrays from 3digit number one has numbers whos digits are increasing and other has decresing digits
+    // int *x, n, *ns;
+    // printf("Enter n: ");
+    // scanf("%d", &n);
 
-    printf("Enter array: \n");
+    // printf("Enter array: \n");
 
-    x = (int *) malloc(n*sizeof(int));
-    if(x==NULL){
-        printf("error start");
-        exit(1);
-    }
+    // x = (int *) malloc(n*sizeof(int));
+    // if(x==NULL){
+    //     printf("error start");
+    //     exit(1);
+    // }
 
-    for(int i = 0; i<n; i++){
-        scanf("%d", &x[i]);
-    }
+    // for(int i = 0; i<n; i++){
+    //     scanf("%d", &x[i]);
+    // }
         
-    ns = make_arrays(x, n);
+    // ns = make_arrays(x, n);
 
-    // printf("%d", ns[0]);
-    // printf(" %d\n", ns[1]);
+    // show_array(y, ns[0]);
+    // show_array(z, ns[1]);
 
-
-    show_array(y, ns[0]);
-    show_array(z, ns[1]);
-
-
-    free(x);
-    free(y);
-    free(z);
-    free(ns);
+    // free(x);
+    // free(y);
+    // free(z);
+    // free(ns);
 
     return 0;
 }
@@ -234,20 +229,6 @@ int is_decreasing(int n){
 
 int * make_arrays(int *x, int n){
     int j = 1, k = 1, check, *sizes;
-
-    y = (int *) malloc(j*sizeof(int));
-    if(y == NULL){
-        printf("error srtart 1");
-        exit(1);
-    }
-
-    z = (int *) malloc(k*sizeof(int));
-    if(z == NULL){
-        printf("error start 2");
-        exit(1);
-    }
-
-
 
     for(int i = 0; i<n; i++){
         check = is_decreasing(x[i]);
