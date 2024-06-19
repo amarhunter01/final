@@ -304,6 +304,7 @@ int main(){
     //     exit(1);
     // }
     
+    // //when using %[^ ] var specifier isnt allowed but %*p[^ ] can be used
     // while(fgets(line, n2, f) != NULL){
     //     sscanf(line, "%[^,]%*c%d,%d", actor -> name, &actor -> started, &actor -> movies);
     //     printf("%s %d\n", actor -> name, actor -> started);
