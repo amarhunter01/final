@@ -4,6 +4,12 @@
 
 #define MAX_CHAR 100
 
+typedef struct Actor{
+    char name[25];
+    int started;
+    int movies;
+} Actor;
+
 //global var
 int *y = NULL, *z = NULL;
 
@@ -185,6 +191,144 @@ int main(){
     // free(z);
     // free(ns);
 
+    // //count lowercase letters from file
+    // FILE *f = fopen("text.txt", "r");
+    // if(f == NULL){
+    //     printf("erorr");
+    //     exit(1);
+    // }
+    // char ch;
+    // int count = 0;
+    // while( (ch = fgetc(f)) != EOF){
+    //     printf("%c", ch);
+    //     if(ch>='a'&& ch <= 'z'){
+    //         count++;
+    //     }
+    // }
+    
+    // printf("count: %d\n", count);
+    // fclose(f);
+
+    // //read line and print last name
+    // FILE *f = fopen("workers.txt", "r");
+    // if(f == NULL){
+    //     printf("error");
+    //     exit(1);
+    // }
+
+    // int n1 = 50;
+    // int n2 = 20;
+    // char line[n1];
+    // char last_name[n2];
+
+    // while(fgets(line, n1, f) != NULL){
+    //     sscanf(line, "%*[^ ]%*c%[^ ]%*[^\n]", last_name);
+    //     printf("%s\n", last_name);
+    // }
+
+    // fclose(f);
+
+    // //print the largest line that has the input word
+    // FILE *f = fopen("text2.txt", "r");
+    // if(f == NULL){
+    //     printf("error");
+    //     exit(1);
+    // }
+    
+    // int n = 80, j = 0, size = 0, line_max_size = 0;
+    // char line[n];
+    // char word[n];
+    // char user_word[n];
+    // char line_max[n];
+
+    // printf("Enter string: ");
+    // scanf("%s", user_word);
+
+    // while(fgets(line, n, f) != NULL){
+    //     j = 0;
+    //     for(int i = 0; i<n; i++){
+    //         if(line[i] == ' ' || line[i]=='\0' || line[i] == '\n'){
+    //             j = 0;
+    //             if(check(user_word, word) == 0){
+    //                 size = 0;
+    //                 while(line[size] != '\0'){
+    //                     size++;
+    //                 }
+    //                 if(size > line_max_size){
+    //                     line_max_size = size;
+    //                 }
+    //                 strcpy(line_max, line);
+    //             }
+    //             if(line[i]=='\0' || line[i]=='\n'){
+    //                 break;
+    //             }
+    //         } else {
+    //             word[j++] = line[i];
+    //             word[j] = '\0'; 
+    //         }
+            
+    //     }
+    // }
+
+    // if(line_max_size){
+    //     printf("Max line: %s\n", line_max);
+    // }else{
+    //     printf("Not found");
+    // }
+    // fclose(f);
+
+    // //write in new file names of actors that has avg more then 2 films per year
+    // FILE *f = fopen("actors.txt", "r");
+    // FILE *out = fopen("actorsout.txt", "w+");
+
+    // if(f == NULL){
+    //     printf("error");
+    //     fclose(out);
+    //     exit(1);
+    // }
+
+    // if(out == NULL){
+    //     printf("error");
+    //     fclose(f);
+    //     exit(1);
+    // }
+    
+    
+    // int ind = 0, n2 = 30;
+    // char line[30];
+    // Actor *actor = (Actor *) malloc(sizeof(Actor));
+    // if(actor == NULL){
+    //     printf("error");
+    //     fclose(out);
+    //     fclose(f);
+    //     exit(1);
+    // }
+    
+    // while(fgets(line, n2, f) != NULL){
+    //     sscanf(line, "%[^,]%*c%d,%d", actor -> name, &actor -> started, &actor -> movies);
+    //     printf("%s %d\n", actor -> name, actor -> started);
+    //     if( (float) actor->movies/(2024 - actor -> started) >= 2 ){
+    //         ind = 1;
+    //         fprintf(out, "%s,%d,%d\n", actor->name, actor -> started, actor -> movies);
+    //     }
+    // }
+
+    // if(ind){
+    //     while(fgets(line, n2, out) != NULL){
+    //         printf("%s", line);
+    //     }
+    // } else{
+    //     printf("Not found\n");
+    // }
+
+    // fclose(f);
+    // fclose(out);
+    // free(actor);
+
+
+
+
+
     return 0;
 }
 
@@ -299,8 +443,11 @@ int check(char *s1, char *s2){
     }
     if(s1[i]>s2[i]){
         return 1;
-    }else 
+    }else if(s1[i]==s2[i]){
         return 0;
+    }else{
+        return -1;
+    }
 }
 
 void sort_names(char (*s)[MAX_CHAR], int n){
