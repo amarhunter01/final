@@ -10,6 +10,12 @@ typedef struct Actor{
     int movies;
 } Actor;
 
+typedef struct List{
+    char s[25];
+    int n;
+    struct List *next;
+} List;
+
 //global var
 int *y = NULL, *z = NULL;
 
@@ -38,6 +44,16 @@ void find_art(int *, float *, int);
 int * make_arrays(int *, int);
 
 int is_decreasing(int);
+
+void show_list(List *);
+
+void remove_char_same(List *);
+
+void add_len(List *);
+
+void free_list(List *);
+
+List * reverse_list(List *);
 
 int main(){
     
@@ -326,11 +342,134 @@ int main(){
     // fclose(out);
     // free(actor);
 
+    // //function show list removes nodes that starts with the same char as head reverse list add length and free list
+    // int n = 4;
 
+    // List *head;
+    // List *prev;
+    // List *curr;
 
+    // printf("Enter n: ");
+    // scanf("%d%*c", &n);
 
+    // if(n>0){   
+    //     head = (List *) malloc(sizeof(List));
+    //     if (head == NULL){
+    //         printf("error");
+    //         exit(1);
+    //     }
+    //     printf("Enter s for node 0: ");
+    //     scanf("%[^\n]%*c", head -> s);
+    //     prev = head;
+    // }
+
+    // for(int i = 1; i<n; i++){
+    //     curr = (List *) malloc(sizeof(List));
+    //     printf("Enter s for node %d: ", i);
+    //     scanf("%[^\n]%*c", curr -> s);
+    //     prev -> next = curr;
+    //     prev = curr;
+    // }
+
+    // remove_char_same(head);
+    // head = reverse_list(head);
+    // add_len(head);
+    // show_list(head);
+    // free_list(head);
+
+    // head = NULL;
 
     return 0;
+}
+
+void free_list(List *head){
+    List *next;
+    
+    while(head != NULL){
+        next = head -> next;
+        free(head);
+        head = next;
+    }
+}
+
+void add_len(List *head){
+    List *next_rel = NULL, *new = NULL;
+
+    int size, n, i;
+
+    char temp;
+
+    while(head != NULL){
+        size = 0;
+        next_rel = head -> next;
+        
+        while(head -> s[size] != '\0'){
+            size++;
+        }
+        
+        new = (List *) malloc(sizeof(List));
+        
+        if(new == NULL){
+            printf("error");
+            exit(1);
+        }
+        
+        n = size;
+        for(i = 0; n > 0 ; i++){
+            new -> s[i] = n%10 + '0';
+            n /= 10;
+        }
+
+        new -> s[i] = '\0';
+        i--;
+        for(int j = 0; i>j; i--, j++){
+            temp = new -> s[i];
+            new -> s[i] = new -> s[j];
+            new -> s[j] = temp;
+        }
+        new -> n = -1;
+
+        new -> next = next_rel;
+        head -> next = new;
+
+        head = head -> next -> next;
+    }
+}
+
+List * reverse_list(List *head){
+    List *curr = head, *prev = NULL, *next = head->next;
+
+    while(next != NULL){
+        next = curr -> next;
+        curr -> next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    return prev;
+} 
+
+void remove_char_same(List *head){
+    char ch = head -> s[0];
+    List *next = NULL;
+
+    while(head -> next != NULL){
+        if(head -> next -> s[0] == ch){
+            next = head -> next;
+            head -> next = head -> next -> next;
+            free(next);
+        } else{
+            head = head -> next;
+        }
+    }
+
+}
+
+void show_list(List *head){
+    while(head!=NULL){
+        printf("%s\n", head -> s);
+        head = head -> next;
+    }
 }
 
 int is_decreasing(int n){
