@@ -4,13 +4,25 @@
 
 #define MAX_CHAR 100
 
-typedef struct Actor{
+struct drvo{ 
+    int i; 
+    struct drvo *left; 
+    struct drvo *right;
+};
+
+typedef struct tree {
+    int n;
+    struct tree *l;
+    struct tree *r;
+} tree;
+
+typedef struct Actor {
     char name[25];
     int started;
     int movies;
 } Actor;
 
-typedef struct List{
+typedef struct List {
     char s[25];
     int n;
     struct List *next;
@@ -54,6 +66,20 @@ void add_len(List *);
 void free_list(List *);
 
 List * reverse_list(List *);
+
+void enter_tree_level(tree *, int);
+
+int weight(tree *);
+
+int number_of_leaves(tree *);
+
+int number_of_nodes_with_even_parents(tree *);
+
+void inorder(tree *);
+
+void preorder(tree *);
+
+void postorder(tree *);
 
 int main(){
     
@@ -379,7 +405,221 @@ int main(){
 
     // head = NULL;
 
+    // //tree enter
+    // tree *root = (tree *) malloc(sizeof(tree));
+    // if(root == NULL){
+    //     printf("error\n");
+    //     exit(1);
+    // }
+    // printf("Enter n for node on level 1: ");
+    // scanf("%d", &root->n);
+
+    // int l;
+    // printf("Is there left node on level 2 (enter '1' for YES and '0' for NO): ");
+    // scanf("%d", &l);
+
+    // if(l){
+    //     root -> l = (tree *) malloc(sizeof(tree));
+    //     if(root -> l == NULL){
+    //         printf("error");
+    //         exit(1);
+    //     }
+    //     printf("Enter n for left node on level 2: ");
+    //     scanf("%d", &root->l -> n);
+    // }
+
+    // int r;
+    // printf("Is there right node on level 2 (enter '1' for YES and '0' for NO): ");
+    // scanf("%d", &r);
+
+    // if(r){
+    //     root -> r = (tree *) malloc(sizeof(tree));
+    //     if(root -> r == NULL){
+    //         printf("error");
+    //         exit(1);
+    //     }
+    //     printf("Enter n for right node on level 2: ");
+    //     scanf("%d", &root->r -> n);
+    // }
+
+    // enter_tree_level(root->l, 2);
+    // enter_tree_level(root->r, 2);
+
+    // //function for weight number of leaves and number of nodes whoes parents has even number
+    
+    // int weight_n;
+    // weight_n = weight(root);
+
+    // int number_of_nodes_with_even_parents_n = number_of_nodes_with_even_parents(root);
+
+    // int number_of_leaves_n = number_of_leaves(root);
+
+    // printf("weight_n: %d\nnumber_of_nodes_with_even_parents_n: %d\nnumbers_of_leaves_n: %d", weight_n, number_of_nodes_with_even_parents_n, number_of_leaves_n);
+
+
+    // //code from labs
+    // struct drvo *p=NULL, *q=NULL, *r=NULL, *t=NULL;
+    // //1
+    // p = (struct drvo *)malloc(sizeof(struct drvo));
+    // if (p == NULL) exit(1);
+    // p->i = 1;
+    // p->left = NULL;
+    // p->right = NULL;
+
+    // //2
+    // q = (struct drvo *)malloc(sizeof(struct drvo));
+    // if (q == NULL) exit(1);
+    // q->i = 2;
+    // q->left = NULL;
+    // q->right = NULL;
+    // p->left = q;
+
+    // //3
+    // r = (struct drvo *)malloc(sizeof(struct drvo));
+    // if (r == NULL) exit(1);
+    // r->i = 3;
+    // r->left = NULL;
+    // r->right = NULL;
+    // p->right = r;
+
+    // t = q;
+
+    // //4
+    // q = (struct drvo *)malloc(sizeof(struct drvo));
+    // if (q == NULL) exit(1);
+    // q->i = 4;
+    // q->left = NULL;
+    // q->right = NULL;
+    // t->left = q;
+
+    // //5
+    // q = (struct drvo *)malloc(sizeof(struct drvo));
+    // if (q == NULL) exit(1);
+    // q->i = 5;
+    // q->left = NULL;
+    // q->right = NULL;
+    // t->right = q;
+
+    // t = q;
+
+    // //6
+    // q = (struct drvo *)malloc(sizeof(struct drvo));
+    // if (q == NULL) exit(1);
+    // q->i = 6;
+    // q->left = NULL;
+    // q->right = NULL;
+    // t->left = q;
+
+    // //7
+    // q = (struct drvo *)malloc(sizeof(struct drvo));
+    // if (q == NULL) exit(1);
+    // q->i = 7;
+    // q->left = NULL;
+    // q->right = NULL;
+    // r->right = q;
+
     return 0;
+}
+
+int number_of_leaves(tree *root){
+    if(root != NULL){
+        if(root -> l == NULL && root -> r == NULL){
+            return 1 + number_of_leaves(root -> l) + number_of_leaves(root -> r);
+        } else {
+            return number_of_leaves(root -> l) + number_of_leaves(root -> r);
+        }
+    } else 
+        return 0;
+}
+
+int weight(tree *root){
+    if(root != NULL){
+        return 1 + weight(root->l) + weight(root->r);
+    } else {
+        return 0;
+    }
+}
+
+int number_of_nodes_with_even_parents(tree *root){
+    if(root != NULL){
+        if(root -> n % 2 == 0){
+            if(root -> l != NULL && root -> r != NULL){
+                return 2 + number_of_nodes_with_even_parents(root -> l) + number_of_nodes_with_even_parents(root -> r);
+            } else if(root -> l != NULL || root -> r != NULL){
+                return 1 + number_of_nodes_with_even_parents(root -> l) + number_of_nodes_with_even_parents(root -> r);
+            } else {
+                return 0;
+            }
+        } else {
+            return number_of_nodes_with_even_parents(root -> l) + number_of_nodes_with_even_parents(root -> r);
+        }
+    } else {
+        return 0;
+    }
+}
+
+void preorder(tree *root){
+    if(root != NULL){
+        printf("%d ", root -> n);
+        preorder(root -> l);
+        preorder(root -> r);
+
+    }
+}
+
+void inorder(tree *root){
+    if(root != NULL){
+        inorder(root->l);
+        printf("%d ", root -> n);
+        inorder(root -> r);
+    }
+}
+
+void postorder(tree *root){
+    if(root != NULL){
+        postorder(root->l);
+        postorder(root -> r);
+        printf("%d ", root -> n);
+    }
+}
+
+void enter_tree_level(tree *root, int i){
+
+    if(root != NULL){
+        int l;
+        printf("Is there left node on level %d (enter '1' for YES and '0' for NO): ", i+1);
+        scanf("%d", &l);
+
+        if(l){
+            root -> l = (tree *) malloc(sizeof(tree));
+            if(root -> l == NULL){
+                printf("error");
+                exit(1);
+            }
+            printf("Enter n for left node on level %d: ", i+1);
+            scanf("%d", &root->l -> n);
+        }
+
+        int r;
+        printf("Is there right node on level %d (enter '1' for YES and '0' for NO): ", i+1);
+        scanf("%d", &r);
+
+        if(r){
+            root -> r = (tree *) malloc(sizeof(tree));
+            if(root -> r == NULL){
+                printf("error");
+                exit(1);
+            }
+            printf("Enter n for right node on level %d: ", i+1);
+            scanf("%d", &root->r -> n);
+        }
+
+        enter_tree_level(root->l, i+1);
+        enter_tree_level(root->r, i+1);
+
+
+
+    }
 }
 
 void free_list(List *head){
