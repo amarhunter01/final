@@ -81,6 +81,8 @@ void preorder(tree *);
 
 void postorder(tree *);
 
+void show_list_d(List *);
+
 int main(){
     
     // //find with brute force and binary
@@ -518,6 +520,23 @@ int main(){
     // q->right = NULL;
     // r->right = q;
 
+    // //add 3 4 5 6 to list and print it
+    // int arr[2] = {5, 6};
+    // List *next;
+    // List *head = (List *) malloc(sizeof(List));
+    // head -> n = 3;
+    // head -> next = (List *) malloc(sizeof(List));
+    // head -> next -> n = 4;
+    // next = head -> next;
+
+    // for(int i = 0; i<2; i++){
+    //     next -> next = (List *) malloc(sizeof(List));
+    //     next -> next -> n = arr[i];
+    //     next = next -> next;
+    // }
+
+    // show_list_d(head);
+
     return 0;
 }
 
@@ -708,6 +727,13 @@ void remove_char_same(List *head){
 void show_list(List *head){
     while(head!=NULL){
         printf("%s\n", head -> s);
+        head = head -> next;
+    }
+}
+
+void show_list_d(List *head){
+    while(head!=NULL){
+        printf("%d\n", head -> n);
         head = head -> next;
     }
 }
